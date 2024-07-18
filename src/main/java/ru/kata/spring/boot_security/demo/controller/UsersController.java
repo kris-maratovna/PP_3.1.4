@@ -31,8 +31,13 @@ public class UsersController {
     }
 
     @GetMapping("/admin")
-    public String showAll (Model model) {
+    public String showAll (@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        User user = userService.getByUsername(userDetails.getUsername());
+        model.addAttribute("loggingUser", user);
         model.addAttribute("users", userService.showAll());
+        model.addAttribute("user", new User());
+        model.addAttribute("roleList", roleService.findAll());
+        model.addAttribute("modifyRoles", user.getNameRole());
         return "/admin/index";
     }
 

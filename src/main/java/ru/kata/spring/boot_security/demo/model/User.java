@@ -46,7 +46,7 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> role;
 
-    public User () {
+    public User() {
 
     }
 
@@ -130,14 +130,14 @@ public class User implements UserDetails {
         return role;
     }
 
-        public String getNameRole() {
+    public String getNameRole() {
         StringBuilder myStr = new StringBuilder();
 
         for (Role role : role) {
             if (myStr.length() != 0) {
-                myStr.append(", ");
+                myStr.append(" ");
             }
-            myStr.append(role.getName());
+            myStr.append(role.getName().split("_")[1]);
         }
         return myStr.toString();
     }
