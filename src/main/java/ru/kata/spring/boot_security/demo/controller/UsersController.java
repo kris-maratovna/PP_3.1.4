@@ -41,11 +41,6 @@ public class UsersController {
         return "/admin/index";
     }
 
-    @GetMapping("/admin/addUser")
-    public String addUser (Model model) {
-        model.addAttribute("user", new User());
-        return "admin/addUser";
-    }
     @PostMapping("/admin/")
     public String create (@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
