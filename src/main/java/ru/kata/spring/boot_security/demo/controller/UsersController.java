@@ -47,50 +47,24 @@ public class UsersController {
         return "admin/addUser";
     }
     @PostMapping("/admin/")
-    public String create (@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                          @RequestParam(value = "roleAdmin", required = false) String roleAdmin,
-                          @RequestParam(value = "roleUser", required = false) String roleUser) {
+    public String create (@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "admin/addUser";
+            return "admin/index";
         }
-
-        return addRoleToSet(user, roleAdmin, roleUser);
-    }
-    private String addRoleToSet(@ModelAttribute("user") User user,
-                                @RequestParam(required = false) String roleAdmin,
-                                @RequestParam(required = false) String roleUser) {
-        Set<Role> roles = new HashSet<>();
-        if (roleAdmin != null) {
-            roles.add(roleService.getRoleByName("ROLE_ADMIN"));
-        }
-        if (roleUser != null) {
-            roles.add(roleService.getRoleByName("ROLE_USER"));
-        }
-        user.setRole(roles);
         userService.add(user);
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/edit")
-    public String editUserForm(@RequestParam("id") Long id, Model model) {
-        Optional<User> userById = userService.findById(id);
-        if (userById.isPresent()) {
-            model.addAttribute("user", userById.get());
-            return "admin/editUser";
-        } else {
-            return "redirect:/admin";
-        }
-    }
 
     @PostMapping("/admin/edit")
-    public String editUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                           @RequestParam(value = "roleAdmin", required = false) String roleAdmin,
-                           @RequestParam(value = "roleUser", required = false) String roleUser) {
+    public String editUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "admin/editUser";
+            return "admin/index";
         }
-        return addRoleToSet(user, roleAdmin, roleUser);
+        userService.edit(user);
+        return "redirect:/admin";
     }
+
     @PostMapping("/admin/delete")
     public String deleteUser(@RequestParam("id") Long id) {
         userService.delete(id);
@@ -100,7 +74,7 @@ public class UsersController {
     @GetMapping("/user")
     public String showUserInfo(@AuthenticationPrincipal UserDetails userDetails, Model model) throws UsernameNotFoundException {
         User user = userService.getByUsername(userDetails.getUsername());
-        model.addAttribute("user", user);
+        model.addAttribute("loggingUser", user);
             return "user";
 
     }

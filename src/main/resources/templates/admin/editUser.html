@@ -18,7 +18,7 @@
     </div>
     <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input type="password" id="password" class="form-control" th:field="*{password}" th:value="${user.password}"
+        <input type="password" id="password" class="form-control" th:name="password" th:value="${user.password}"
                required>
         <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
     </div>
