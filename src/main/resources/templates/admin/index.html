@@ -103,7 +103,7 @@
                                                         <div class="modal-body">
                                                             <div class="row justify-content-center">
                                                                 <div class="col-md-3 text-center">
-                                                                    <form th:method="POST"
+                                                                    <form th:method="PATCH"
                                                                           th:action="@{/admin/edit}">
                                                                         <div class="mb-3">
                                                                         <label for="disabledTextInput"
@@ -151,8 +151,9 @@
                                                                         <select multiple th:size="${roleList.size()}" th:name="role"
                                                                                 class="form-select form-select-sm mb-3">
                                                                             <option th:each="role : ${roleList}"
+                                                                                    th:selected="${user.role.contains(role)}"
                                                                                     th:text="${role.getName().substring(5)}"
-                                                                                    th:value="${role.id}"></option>
+                                                                                    th:value="${role.id}" ></option>
                                                                         </select>
 
                                                                         <div class="modal-footer">

@@ -39,7 +39,15 @@ public class UserServiceImp implements UserService {
     }
     @Override
     public void edit(User user) {
-        usersRepository.save(user);
+        String password = user.getPassword();
+        String encode = passwordEncoder.encode(password);
+        var currentPassword = usersRepository.findById(user.getId()).get().getPassword();
+        if (password.equals(currentPassword)) {
+            usersRepository.save(user);
+        } else {
+            user.setPassword(encode);
+            usersRepository.save(user);
+        }
     }
     @Override
     public void delete(Long id) {

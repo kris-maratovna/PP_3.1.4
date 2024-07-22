@@ -51,7 +51,7 @@ public class UsersController {
     }
 
 
-    @PostMapping("/admin/edit")
+    @PatchMapping("/admin/edit")
     public String editUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "admin/index";
