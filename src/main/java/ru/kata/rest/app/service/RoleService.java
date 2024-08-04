@@ -1,9 +1,8 @@
-package ru.kata.spring.boot_security.demo.service;
+package ru.kata.rest.app.service;
 
-import ru.kata.spring.boot_security.demo.model.Role;
+import ru.kata.rest.app.model.Role;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface RoleService {
     Role getRoleByName(String nameRole);

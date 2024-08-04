@@ -1,15 +1,15 @@
-package ru.kata.spring.boot_security.demo.service;
+package ru.kata.rest.app.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.model.Role;
-import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repositories.UsersRepository;
+import ru.kata.rest.app.model.Role;
+import ru.kata.rest.app.model.User;
+import ru.kata.rest.app.repositories.UsersRepository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -34,8 +34,13 @@ public class UserServiceImp implements UserService {
         return usersRepository.findAll();
     }
     @Override
-    public Optional<User> findById(Long id) {
-        return usersRepository.findById(id);
+    public User findById(Long id) {
+        User user = null;
+        Optional<User> optionalUser = usersRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+        }
+        return user;
     }
     @Override
     public void edit(User user) {
@@ -56,5 +61,13 @@ public class UserServiceImp implements UserService {
     @Override
     public User getByUsername(String username) {
         return usersRepository.findByUsername(username).get();
+    }
+
+    @Override
+    public boolean isAdmin(String username) {
+        User user = usersRepository.findByUsername(username).orElseThrow();
+        return user.getRole().stream()
+                .map(Role::getName)
+                .anyMatch(role -> role.equals("ROLE_ADMIN"));
     }
 }

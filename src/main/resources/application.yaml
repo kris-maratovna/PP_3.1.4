@@ -11,7 +11,3 @@ spring:
       ddl-auto: update
     show-sql: true
 
-logging:
-  level:
-    org.springframework: DEBUG
-    org.hibernate: DEBUG

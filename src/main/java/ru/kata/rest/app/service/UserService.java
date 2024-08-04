@@ -1,6 +1,6 @@
-package ru.kata.spring.boot_security.demo.service;
+package ru.kata.rest.app.service;
 
-import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.rest.app.model.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,8 +8,9 @@ import java.util.Optional;
 public interface UserService {
     void add(User user);
     List<User> showAll();
-    Optional<User> findById(Long id);
+    User findById(Long id);
     void edit(User user);
     void delete(Long id);
     User getByUsername(String username);
+    boolean isAdmin(String username);
 }
